@@ -1,5 +1,5 @@
 # ---- Stage 1: build the executable JAR -------------------------------------
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Resolve dependencies first so this layer is cached until pom.xml changes
@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn -B -q -DskipTests clean package
 
 # ---- Stage 2: slim runtime image with only the JAR -------------------------
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # Run as an unprivileged user, not root
 RUN addgroup -S app && adduser -S -G app app

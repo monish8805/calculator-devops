@@ -23,7 +23,7 @@ Error codes: `DIVISION_BY_ZERO`, `MISSING_PARAMETER`, `INVALID_PARAMETER`.
 
 ## Build and test
 
-Requires JDK 17+ and Maven 3.9+.
+Requires JDK 17+ (the Docker image uses 21) and Maven 3.9+.
 
 ```bash
 mvn clean package     # build the runnable JAR into target/
