@@ -1,0 +1,38 @@
+services:
+  calculator:
+    build:
+      context: .
+    # IMAGE_NAME and IMAGE_TAG are set by the Jenkins pipeline (tag = build number)
+    image: ${IMAGE_NAME:-calculator-api}:${IMAGE_TAG:-latest}
+    deploy:
+      replicas: 2                      # two API containers behind the Nginx proxy
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=75.0
+    expose:
+      - "8080"                         # internal only; reached through the proxy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - calc-net
+
+  proxy:
+    image: nginx:1.27-alpine
+    ports:
+      - "8081:80"                      # host port 8081 (8080 is left free for Jenkins)
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      calculator:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - calc-net
+
+networks:
+  calc-net:
+    driver: bridge
