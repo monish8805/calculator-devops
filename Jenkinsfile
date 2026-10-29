@@ -14,9 +14,9 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_USER = 'YOUR_DOCKERHUB_USERNAME'          // <-- change me
+        DOCKERHUB_USER = 'monish8805'
         IMAGE_NAME     = "${DOCKERHUB_USER}/calculator-api"
-        NOTIFY_EMAIL   = 'your.email@example.com'            // <-- change me
+        NOTIFY_EMAIL   = 'monureddig@gmail.com'
     }
 
     stages {
