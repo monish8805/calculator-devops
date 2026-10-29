@@ -14,6 +14,8 @@ pipeline {
     }
 
     environment {
+        // Jenkins runs as a background service with a minimal PATH
+        PATH           = "/usr/local/bin:/opt/homebrew/bin:${env.PATH}"
         DOCKERHUB_USER = 'monish8805'
         IMAGE_NAME     = "${DOCKERHUB_USER}/calculator-api"
         NOTIFY_EMAIL   = 'monureddig@gmail.com'
@@ -51,6 +53,10 @@ pipeline {
         }
 
         stage('Push') {
+            environment {
+                // Private Docker config: avoids the macOS keychain credential helper under a service
+                DOCKER_CONFIG = "${WORKSPACE}/.docker"
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
                                                   usernameVariable: 'DH_USER',
