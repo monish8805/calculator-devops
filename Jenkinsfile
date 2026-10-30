@@ -57,6 +57,7 @@ pipeline {
             environment {
                 // Private Docker config: avoids the macOS keychain credential helper under a service
                 DOCKER_CONFIG = "${WORKSPACE}/.docker"
+                
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
