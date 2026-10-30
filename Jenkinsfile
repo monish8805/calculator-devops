@@ -13,6 +13,7 @@ pipeline {
         pollSCM('H/2 * * * *')
     }
 
+    
     environment {
         // Jenkins runs as a background service with a minimal PATH
         PATH           = "/usr/local/bin:/opt/homebrew/bin:${env.PATH}"
